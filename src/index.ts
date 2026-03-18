@@ -1,36 +1,55 @@
-import { getInput, setFailed, debug } from "@actions/core";
-import { WebhookClient } from "./structures/WebhookClient";
-import { context } from "@actions/github";
+import { getInput, setFailed } from '@actions/core';
+import { WebhookClient } from './structures/WebhookClient.js';
+import { context } from '@actions/github';
+import { parseGitHubRepository } from './utils/parser/parseGitHubRepository.js';
+import type { ContainerBuilder } from '@discordjs/builders';
+import { ISSUE_OPENED_MESSAGE } from './lib/messages/IssueOpened.js';
+import { parseGitHubIssue } from './utils/parser/parseGitHubIssue.js';
 
 async function execute() {
-	const webhookId = getInput("webhook_id");
-	const webhookToken = getInput("webhook_token");
+	const webhookId = getInput('webhook_id');
+	const webhookToken = getInput('webhook_token');
 
 	const webhook = new WebhookClient(webhookId, webhookToken);
 
-	const { payload } = context;
-	const { repository } = payload;
-
-	// @ts-ignore
-	const { full_name } = repository;
+	const { eventName, payload } = context;
 
 	console.dir(context, {
-		depth: null,
 		colors: true,
+		depth: null,
 	});
 
-	/** @type {GitHubContext} */
-	const gitHubContext = {
-		repository: {
-			name: full_name,
-		},
-	};
+	switch (eventName) {
+		case 'issues': {
+			const { action } = payload;
 
-	await webhook.execute(gitHubContext);
+			if (!action) {
+				return setFailed('Cannot handle issue without an action');
+			}
+
+			const issue = parseGitHubIssue(payload);
+			const repository = parseGitHubRepository(payload);
+
+			const messages: Partial<Record<string, ContainerBuilder>> = {
+				opened: ISSUE_OPENED_MESSAGE({
+					issue,
+					repository,
+				}),
+			};
+
+			const message = messages[action];
+
+			if (message) {
+				await webhook.execute(message);
+			}
+		}
+	}
 }
 
 try {
 	execute();
 } catch (error) {
-	setFailed(error);
+	if (error instanceof Error) {
+		setFailed(error);
+	}
 }
