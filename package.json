@@ -1,14 +1,5 @@
 {
-	"name": "github-actions",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"build": "ncc build src/index.js -o dist"
-	},
-	"keywords": [],
 	"author": "",
-	"license": "ISC",
 	"dependencies": {
 		"@actions/core": "3.0.0",
 		"@actions/github": "9.0.0",
@@ -16,7 +7,19 @@
 		"@discordjs/formatters": "0.6.2",
 		"discord-api-types": "0.38.42"
 	},
+	"description": "",
 	"devDependencies": {
+		"@biomejs/biome": "2.4.8",
+		"@octokit/openapi-types": "27.0.0",
+		"@octokit/types": "16.0.0",
 		"@vercel/ncc": "0.38.4"
-	}
+	},
+	"keywords": [],
+	"license": "ISC",
+	"main": "index.js",
+	"name": "github-actions",
+	"scripts": {
+		"build": "ncc build src/index.js -o dist"
+	},
+	"version": "1.0.0"
 }

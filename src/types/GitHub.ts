@@ -1,3 +1,5 @@
+import type { components } from '@octokit/openapi-types';
+
 export interface GitHubIssue {
 	body: string | null;
 	title: string;
@@ -9,3 +11,5 @@ export interface GitHubRepository {
 	name: string;
 	url: string;
 }
+
+export type RawGitHubRepository = components['schemas']['repository'];
