@@ -1,0 +1,1 @@
+export const ISSUE_OPENED_EMOJI = "<:_:1483950815013114071>";
