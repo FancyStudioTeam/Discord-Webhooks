@@ -1,20 +1,22 @@
 {
-  "name": "GitHub-Actions",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@actions/core": "3.0.0",
-    "@actions/github": "9.0.0",
-    "@discordjs/builders": "1.13.1",
-    "@discordjs/formatters": "0.6.2",
-    "@discordjs/rest": "2.6.0",
-    "discord-api-types": "0.38.42"
-  }
+	"name": "GitHub-Actions",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "ncc build src/index.js -o dist"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@actions/core": "3.0.0",
+		"@actions/github": "9.0.0",
+		"@discordjs/builders": "1.13.1",
+		"@discordjs/formatters": "0.6.2",
+		"discord-api-types": "0.38.42"
+	},
+	"devDependencies": {
+		"@vercel/ncc": "0.38.4"
+	}
 }
