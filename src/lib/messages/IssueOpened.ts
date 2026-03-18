@@ -1,13 +1,10 @@
-import type { GitHubIssue, GitHubRepository } from "#/types/GitHub";
-import {
-	ContainerBuilder,
-	heading,
-	HeadingLevel,
-	TextDisplayBuilder,
-} from "@discordjs/builders";
-import { ISSUE_OPENED_EMOJI } from "../Emojis.js";
-import { formatRepositoryHyperlink } from "#/utils/formatRepositoryHyperlink.js";
-import { GREEN_COLOR } from "../Colors.js";
+/* biome-ignore-all lint/style/useNamingConvention: (x) */
+
+import { ContainerBuilder, HeadingLevel, heading, TextDisplayBuilder } from '@discordjs/builders';
+import type { GitHubIssue, GitHubRepository } from '#/types/GitHub.js';
+import { formatRepositoryHyperlink } from '#/utils/markdown/formatRepositoryHyperlink.js';
+import { GREEN_COLOR } from '../Colors.js';
+import { ISSUE_OPENED_EMOJI } from '../Emojis.js';
 
 export function ISSUE_OPENED_MESSAGE({
 	issue,
@@ -16,10 +13,7 @@ export function ISSUE_OPENED_MESSAGE({
 	const { title: issueTitle } = issue;
 	const { fullName: repositoryFullName, url: repositoryUrl } = repository;
 
-	const repositoryHyperlink = formatRepositoryHyperlink(
-		repositoryFullName,
-		repositoryUrl,
-	);
+	const repositoryHyperlink = formatRepositoryHyperlink(repositoryFullName, repositoryUrl);
 
 	const containerBuilder = new ContainerBuilder();
 	const containerTitleBuilder = new TextDisplayBuilder();
