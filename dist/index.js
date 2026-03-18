@@ -40233,7 +40233,7 @@ function isDebug() {
  * @param message debug message
  */
 function core_debug(message) {
-    issueCommand('debug', {}, message);
+    command_issueCommand('debug', {}, message);
 }
 /**
  * Adds an error issue
@@ -52570,6 +52570,7 @@ function getOctokit(token, options, ...additionalPlugins) {
 }
 //# sourceMappingURL=github.js.map
 ;// CONCATENATED MODULE: ./src/index.js
+/// <reference path="types/GitHub.js" />
 // @ts-check
 
 
@@ -52587,6 +52588,8 @@ async function execute() {
 
 	// @ts-ignore
 	const { full_name } = repository;
+
+	core_debug(JSON.stringify(github_context));
 
 	/** @type {GitHubContext} */
 	const gitHubContext = {
