@@ -1,3 +1,4 @@
+/// <reference path="types/GitHub.js" />
 // @ts-check
 
 import { getInput, setFailed } from "@actions/core";
@@ -15,6 +16,13 @@ async function execute() {
 
 	// @ts-ignore
 	const { full_name } = repository;
+
+	console.dir(payload, {
+		depth: null,
+	});
+	console.dir(context, {
+		depth: null,
+	});
 
 	/** @type {GitHubContext} */
 	const gitHubContext = {
