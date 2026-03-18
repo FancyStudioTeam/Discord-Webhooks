@@ -1,0 +1,14 @@
+name: "Discord Webhooks"
+
+inputs:
+    webhook_id:
+        description: "The ID of the Discord webhook"
+        required: true
+
+    webhook_token:
+        description: "The token of the Discord webhook"
+        required: true
+
+runs:
+    using: "node20"
+    main: "src/index.js"
