@@ -12,11 +12,13 @@
 		"@biomejs/biome": "2.4.8",
 		"@octokit/openapi-types": "27.0.0",
 		"@octokit/types": "16.0.0",
-		"@vercel/ncc": "0.38.4"
+		"@types/node": "25.5.0",
+		"@vercel/ncc": "0.38.4",
+		"typescript": "5.9.3"
 	},
 	"keywords": [],
 	"license": "ISC",
-	"main": "index.js",
+	"main": "src/index.ts",
 	"name": "github-actions",
 	"scripts": {
 		"build": "ncc build src/index.js -o dist"
