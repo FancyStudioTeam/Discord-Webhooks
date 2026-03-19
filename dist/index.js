@@ -49198,7 +49198,7 @@ function ISSUE_OPENED_MESSAGE({ issue, repository, }) {
     const containerBuilder = new ContainerBuilder();
     const containerSeparatorBuilder = new SeparatorBuilder();
     const containerTitleBuilder = new TextDisplayBuilder();
-    containerTitleBuilder.setContent(heading(`${ISSUE_OPENED_EMOJI} ${repositoryHyperlink} Issue Opened: ${issueTitle}`, HeadingLevel.Three));
+    containerTitleBuilder.setContent(heading(`${ISSUE_OPENED_EMOJI} ${repositoryHyperlink} - Issue Opened: ${issueTitle}`, HeadingLevel.Three));
     containerBuilder.addTextDisplayComponents(containerTitleBuilder);
     containerBuilder.setAccentColor(GREEN_COLOR);
     if (issueBody) {
@@ -49282,14 +49282,14 @@ async function run() {
                 const issue = parseGitHubIssue(payload);
                 const repository = parseGitHubRepository(payload);
                 const messages = {
-                    opened: ISSUE_OPENED_MESSAGE({
-                        issue,
-                        repository,
-                    }),
+                    opened: ISSUE_OPENED_MESSAGE,
                 };
                 const message = messages[action];
                 if (message) {
-                    await webhook.execute(message);
+                    await webhook.execute(message({
+                        issue,
+                        repository,
+                    }));
                 }
             }
         }

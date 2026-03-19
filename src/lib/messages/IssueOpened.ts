@@ -27,7 +27,7 @@ export function ISSUE_OPENED_MESSAGE({
 
 	containerTitleBuilder.setContent(
 		heading(
-			`${ISSUE_OPENED_EMOJI} ${repositoryHyperlink} Issue Opened: ${issueTitle}`,
+			`${ISSUE_OPENED_EMOJI} ${repositoryHyperlink} - Issue Opened: ${issueTitle}`,
 			HeadingLevel.Three,
 		),
 	);

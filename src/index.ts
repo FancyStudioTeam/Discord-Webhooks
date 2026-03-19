@@ -1,7 +1,9 @@
 import { getInput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
+import type { ContainerBuilder } from '@discordjs/builders';
 import { ISSUE_OPENED_MESSAGE } from './lib/messages/IssueOpened.js';
 import { WebhookClient } from './structures/WebhookClient.js';
+import type { GitHubIssue, GitHubRepository } from './types/GitHub.js';
 import { parseGitHubIssue } from './utils/parser/parseGitHubIssue.js';
 import { parseGitHubRepository } from './utils/parser/parseGitHubRepository.js';
 
@@ -30,17 +32,19 @@ async function run() {
 				const issue = parseGitHubIssue(payload);
 				const repository = parseGitHubRepository(payload);
 
-				const messages = {
-					opened: ISSUE_OPENED_MESSAGE({
-						issue,
-						repository,
-					}),
+				const messages: Partial<Record<string, IssueFunction>> = {
+					opened: ISSUE_OPENED_MESSAGE,
 				};
 
 				const message = messages[action];
 
 				if (message) {
-					await webhook.execute(message);
+					await webhook.execute(
+						message({
+							issue,
+							repository,
+						}),
+					);
 				}
 			}
 		}
@@ -52,3 +56,8 @@ async function run() {
 }
 
 run();
+
+type IssueFunction = (options: {
+	issue: GitHubIssue;
+	repository: GitHubRepository;
+}) => ContainerBuilder;
