@@ -24,9 +24,6 @@ importers:
       '@octokit/openapi-types':
         specifier: 27.0.0
         version: 27.0.0
-      '@octokit/types':
-        specifier: 16.0.0
-        version: 16.0.0
       '@rollup/plugin-commonjs':
         specifier: 29.0.2
         version: 29.0.2(rollup@4.59.0)
