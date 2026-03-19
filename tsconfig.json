@@ -10,7 +10,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"incremental": false,
 		"isolatedModules": true,
-		"module": "esnext",
+		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"outDir": "dist",
 		"paths": {
