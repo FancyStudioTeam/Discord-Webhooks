@@ -6,6 +6,7 @@ import { defineConfig } from 'rollup';
 export default defineConfig({
 	input: 'src/index.ts',
 	output: {
+		compact: true,
 		esModule: true,
 		file: 'dist/index.js',
 		format: 'es',
