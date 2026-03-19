@@ -5,7 +5,7 @@ export function parseGitHubIssue(payload: Record<string, unknown>): GitHubIssue 
 	const { body, html_url, number, title } = issue as RawGitHubIssue;
 
 	const gitHubIssue: GitHubIssue = {
-		body: body || null,
+		body: body ?? null,
 		number,
 		title,
 		url: html_url,
