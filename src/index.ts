@@ -1,13 +1,11 @@
 import { getInput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
-import type { ContainerBuilder } from '@discordjs/builders';
 
 import { ISSUE_CLOSED_MESSAGE } from './events/issues/IssueClosed.js';
 import { ISSUE_OPENED_MESSAGE } from './events/issues/IssueOpened.js';
+import { IssueMessageFunction } from './events/issues/Shared.js';
 import { WebhookClient } from './structures/WebhookClient.js';
 import type { GitHubIssue, GitHubRepository } from './types/GitHub.js';
-import { parseGitHubIssue } from './utils/parser/parseGitHubIssue.js';
-import { parseGitHubRepository } from './utils/parser/parseGitHubRepository.js';
 
 async function run(): Promise<void> {
 	try {
@@ -25,16 +23,17 @@ async function run(): Promise<void> {
 
 		switch (eventName) {
 			case 'issues': {
-				const { action } = payload;
+				const { action, issue, repository } = payload;
 
 				if (!action) {
 					return setFailed('Cannot handle issue without an action');
 				}
 
-				const issue = parseGitHubIssue(payload);
-				const repository = parseGitHubRepository(payload);
+				if (!issue || !repository) {
+					return setFailed('Cannot handle issue without an issue or repository object');
+				}
 
-				const messages: Partial<Record<string, IssueFunction>> = {
+				const messages: Partial<Record<string, IssueMessageFunction>> = {
 					closed: ISSUE_CLOSED_MESSAGE,
 					opened: ISSUE_OPENED_MESSAGE,
 				};
@@ -44,8 +43,8 @@ async function run(): Promise<void> {
 				if (message) {
 					await webhook.execute(
 						message({
-							issue,
-							repository,
+							issue: issue as GitHubIssue,
+							repository: repository as GitHubRepository,
 						}),
 					);
 				}
@@ -59,8 +58,3 @@ async function run(): Promise<void> {
 }
 
 run();
-
-type IssueFunction = (options: {
-	issue: GitHubIssue;
-	repository: GitHubRepository;
-}) => ContainerBuilder;

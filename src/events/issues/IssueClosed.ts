@@ -11,11 +11,11 @@ import {
 import { PURPLE_COLOR } from '#/lib/Colors.js';
 import { ISSUE_CLOSED_EMOJI } from '#/lib/Emojis.js';
 
-import type { IssueMessageOptions } from './shared.js';
+import type { IssueMessageOptions } from './Shared.js';
 
 export function ISSUE_CLOSED_MESSAGE({ issue, repository }: IssueMessageOptions): ContainerBuilder {
 	const { number: issueNumber, title: issueTitle, url: issueUrl } = issue;
-	const { fullName: repositoryFullName } = repository;
+	const { full_name: repositoryFullName } = repository;
 
 	const containerBuilder = new ContainerBuilder();
 	const containerTitleBuilder = new TextDisplayBuilder();
