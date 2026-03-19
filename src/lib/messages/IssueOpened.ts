@@ -25,16 +25,18 @@ export function ISSUE_OPENED_MESSAGE({
 	const containerBuilder = new ContainerBuilder();
 	const containerSeparatorBuilder = new SeparatorBuilder();
 	const containerTitleBuilder = new TextDisplayBuilder();
-	const containerSubtitleBuilder = new TextDisplayBuilder();
 
 	containerTitleBuilder.setContent(
-		heading(`${ISSUE_OPENED_EMOJI} ${repositoryHyperlink}: Issue Opened`, HeadingLevel.Two),
-	);
-	containerSubtitleBuilder.setContent(
-		heading(hyperlink(`[Issue #${issueNumber}] ${issueTitle}`, issueUrl), HeadingLevel.Three),
+		heading(
+			hyperlink(
+				`${ISSUE_OPENED_EMOJI} [${repositoryHyperlink}] (Issue #${issueNumber}): ${issueTitle}`,
+				issueUrl,
+			),
+			HeadingLevel.Three,
+		),
 	);
 
-	containerBuilder.addTextDisplayComponents(containerTitleBuilder, containerSubtitleBuilder);
+	containerBuilder.addTextDisplayComponents(containerTitleBuilder);
 	containerBuilder.setAccentColor(GREEN_COLOR);
 
 	if (issueBody) {
