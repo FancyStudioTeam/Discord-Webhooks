@@ -9,7 +9,7 @@ export default defineConfig({
 		compact: true,
 		esModule: true,
 		file: 'dist/index.js',
-		format: 'es',
+		format: 'esm',
 		sourcemap: true,
 	},
 	plugins: [
