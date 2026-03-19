@@ -48387,9 +48387,7 @@ function ISSUE_OPENED_MESSAGE({ issue, repository }) {
         const url = this._createRequestUrl();
         await fetch(url, {
             body: JSON.stringify({
-                components: [
-                    containerBuilder,
-                ],
+                components: [containerBuilder],
                 flags: MessageFlags.IsComponentsV2,
             }),
             headers: {
