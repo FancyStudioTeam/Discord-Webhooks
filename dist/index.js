@@ -49194,7 +49194,7 @@ function ISSUE_OPENED_MESSAGE({ issue, repository, }) {
     const containerBuilder = new ContainerBuilder();
     const containerSeparatorBuilder = new SeparatorBuilder();
     const containerTitleBuilder = new TextDisplayBuilder();
-    containerTitleBuilder.setContent(heading(hyperlink(`${ISSUE_OPENED_EMOJI} [${formattedRepositoryFullName}] (Issue #${issueNumber}): ${issueTitle}`, issueUrl), HeadingLevel.Three));
+    containerTitleBuilder.setContent(heading(hyperlink(`${ISSUE_OPENED_EMOJI} ${formattedRepositoryFullName} [Issue #${issueNumber}]: ${issueTitle}`, issueUrl), HeadingLevel.Three));
     containerBuilder.addTextDisplayComponents(containerTitleBuilder);
     containerBuilder.setAccentColor(GREEN_COLOR);
     if (issueBody) {

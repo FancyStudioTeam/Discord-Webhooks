@@ -30,7 +30,7 @@ export function ISSUE_OPENED_MESSAGE({
 	containerTitleBuilder.setContent(
 		heading(
 			hyperlink(
-				`${ISSUE_OPENED_EMOJI} [${formattedRepositoryFullName}] (Issue #${issueNumber}): ${issueTitle}`,
+				`${ISSUE_OPENED_EMOJI} ${formattedRepositoryFullName} [Issue #${issueNumber}]: ${issueTitle}`,
 				issueUrl,
 			),
 			HeadingLevel.Three,
