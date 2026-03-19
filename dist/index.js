@@ -52641,7 +52641,7 @@ function ISSUE_OPENED_MESSAGE({
 	if (issueBody) {
 		const containerBodyBuilder = new TextDisplayBuilder();
 
-		containerBodyBuilder.setContent(body);
+		containerBodyBuilder.setContent(issueBody);
 
 		containerBuilder.addSeparatorComponents(containerSeparatorBuilder)
 		containerBuilder.addTextDisplayComponents(containerBodyBuilder)
