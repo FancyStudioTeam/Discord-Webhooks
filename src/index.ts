@@ -33,8 +33,10 @@ async function run(): Promise<void> {
 		}
 	} catch (error) {
 		if (error instanceof Error) {
-			setFailed(error);
+			return setFailed(error.stack ?? error.message);
 		}
+
+		setFailed('Unknown Error');
 	}
 }
 

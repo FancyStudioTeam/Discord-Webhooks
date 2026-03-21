@@ -48451,8 +48451,9 @@ const PURPLE_COLOR = 0x6366f1;class IssueClosedEventHandler {
     }
     catch (error) {
         if (error instanceof Error) {
-            setFailed(error);
+            return setFailed(error.stack ?? error.message);
         }
+        setFailed('Unknown Error');
     }
 }
 void run();//# sourceMappingURL=index.js.map
