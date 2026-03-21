@@ -16,7 +16,7 @@ async function run(): Promise<void> {
 
 		const { eventName, payload } = context;
 
-		console.dir(payload, {
+		console.dir(context, {
 			colors: true,
 			depth: null,
 		});

@@ -48437,7 +48437,7 @@ const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHand
         const webhookToken = getInput('webhook_token');
         const webhook = new WebhookClient(webhookId, webhookToken);
         const { eventName, payload } = context;
-        console.dir(payload, {
+        console.dir(context, {
             colors: true,
             depth: null,
         });
