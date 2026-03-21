@@ -9,7 +9,6 @@ enum HttpStatusCode {
 	BadRequest = 400,
 	NotAuthorized = 401,
 	NotFound = 404,
-	Ok = 200,
 }
 
 export class WebhookClient {
@@ -48,12 +47,13 @@ export class WebhookClient {
 		const request = this.createWebhookExecuteRequest(containerBuilder);
 		const response = await fetch(request);
 
-		const { status } = response;
+		const { ok, status } = response;
+
+		if (ok) {
+			return info('✅ The webhook was executed successfully');
+		}
 
 		switch (status) {
-			case HttpStatusCode.Ok: {
-				return info('✅ The webhook was executed successfully');
-			}
 			case HttpStatusCode.BadRequest: {
 				const responseJson = await response.json();
 

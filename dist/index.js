@@ -48347,90 +48347,8 @@ var integrationTypesPredicate2 = s3.array(
 function embedLength(data) {
   return (data.title?.length ?? 0) + (data.description?.length ?? 0) + (data.fields?.reduce((prev, curr) => prev + curr.name.length + curr.value.length, 0) ?? 0) + (data.footer?.text.length ?? 0) + (data.author?.name.length ?? 0);
 }
-__name(embedLength, "embedLength");const GREEN_COLOR = 0x10b981;
-const PURPLE_COLOR = 0x6366f1;const GIT_COMMIT_EMOJI = '<:_:1484968687449411614>';
-const ISSUE_CLOSED_EMOJI = '<:_:1484998086764789780>';
-const ISSUE_OPENED_EMOJI = '<:_:1484998753004814546>';
-const REPO_PUSH_EMOJI = '<:_:1484953588789940426>';const IssueClosedEventHandler = Object.freeze({
-    createContainerBuilder() {
-        return new ContainerBuilder();
-    },
-    createTitleBuilder(issueClosedEvent) {
-        const titleString = this.formatContainerTitle(issueClosedEvent);
-        const titleBuilder = new TextDisplayBuilder();
-        titleBuilder.setContent(titleString);
-        return titleBuilder;
-    },
-    formatContainerTitle({ issue, repository, sender }) {
-        const { html_url: issueHtmlUrl, number: issueNumber } = issue;
-        const { name: repositoryName } = repository;
-        const { login: senderLogin } = sender;
-        const formattedTitle = escapeMarkdown(`${ISSUE_CLOSED_EMOJI} [${repositoryName}] ${senderLogin} has Closed Issue #${issueNumber}`);
-        return heading(hyperlink(formattedTitle, issueHtmlUrl), HeadingLevel.Three);
-    },
-    handle(issueClosedEvent) {
-        const containerBuilder = this.createContainerBuilder();
-        const containerTitleBuilder = this.createTitleBuilder(issueClosedEvent);
-        containerBuilder.setAccentColor(PURPLE_COLOR);
-        containerBuilder.addTextDisplayComponents(containerTitleBuilder);
-        return containerBuilder;
-    },
-});const IssueOpenedEventHandler = Object.freeze({
-    appendBodyToContainer(containerBuilder, issueBody) {
-        if (issueBody) {
-            const containerSeparatorBuilder = this.createSeparatorBuilder();
-            const containerBodyBuilder = this.createTextDisplayBuilder();
-            containerBodyBuilder.setContent(issueBody);
-            containerBuilder.addSeparatorComponents(containerSeparatorBuilder);
-            containerBuilder.addTextDisplayComponents(containerBodyBuilder);
-        }
-    },
-    createContainerBuilder() {
-        return new ContainerBuilder();
-    },
-    createSeparatorBuilder() {
-        return new SeparatorBuilder();
-    },
-    createSubtitleBuilder(issueOpenedEvent) {
-        const subtitleString = this.formatContainerSubtitle(issueOpenedEvent);
-        const subtitleBuilder = this.createTextDisplayBuilder();
-        subtitleBuilder.setContent(subtitleString);
-        return subtitleBuilder;
-    },
-    createTextDisplayBuilder() {
-        return new TextDisplayBuilder();
-    },
-    createTitleBuilder(issueOpenedEvent) {
-        const titleString = this.formatContainerTitle(issueOpenedEvent);
-        const titleBuilder = this.createTextDisplayBuilder();
-        titleBuilder.setContent(titleString);
-        return titleBuilder;
-    },
-    formatContainerSubtitle(issueOpenedEvent) {
-        const { issue } = issueOpenedEvent;
-        const { title: issueTitle } = issue;
-        return bold(escapeBold(issueTitle));
-    },
-    formatContainerTitle(issueOpenedEvent) {
-        const { issue, repository, sender } = issueOpenedEvent;
-        const { html_url: issueHtmlUrl, number: issueNumber } = issue;
-        const { name: repositoryName } = repository;
-        const { login: senderLogin } = sender;
-        const formattedTitle = escapeMarkdown(`${ISSUE_OPENED_EMOJI} [${repositoryName}] ${senderLogin} has Opened Issue #${issueNumber}`);
-        return heading(hyperlink(formattedTitle, issueHtmlUrl), HeadingLevel.Three);
-    },
-    handle(issueOpenedEvent) {
-        const { issue } = issueOpenedEvent;
-        const { body: issueBody } = issue;
-        const containerBuilder = this.createContainerBuilder();
-        const containerTitleBuilder = this.createTitleBuilder(issueOpenedEvent);
-        const containerSubtitleBuilder = this.createSubtitleBuilder(issueOpenedEvent);
-        containerBuilder.setAccentColor(GREEN_COLOR);
-        containerBuilder.addTextDisplayComponents(containerTitleBuilder, containerSubtitleBuilder);
-        this.appendBodyToContainer(containerBuilder, issueBody);
-        return containerBuilder;
-    },
-});const GITHUB_COMMIT_HASH_LENGTH = 7;
+__name(embedLength, "embedLength");const GIT_COMMIT_EMOJI = '<:_:1484968687449411614>';
+const REPO_PUSH_EMOJI = '<:_:1484953588789940426>';const GITHUB_COMMIT_HASH_LENGTH = 7;
 const GitHubUtils = Object.freeze({
     formatBranch(referenceString) {
         const references = referenceString.split('/');
@@ -48486,27 +48404,14 @@ const PushEventHandler = Object.freeze({
         this.appendCommitsToContainer(containerBuilder, commits);
         return containerBuilder;
     },
-});const EventHandlers = {
-    issues: async (webhookClient, issuesEvent) => {
-        const { action } = issuesEvent;
-        const handlers = {
-            closed: IssueClosedEventHandler.handle,
-            opened: IssueOpenedEventHandler.handle,
-        };
-        const handler = handlers[action];
-        if (handler) {
-            await webhookClient.execute(handler(issuesEvent));
-        }
-    },
-    push: async (webhookClient, pushEvent) => await webhookClient.execute(PushEventHandler.handle(pushEvent)),
-};const { api } = RouteBases;
+});const EventHandlersMap = new Map();
+EventHandlersMap.set('push', async (webhookClient, pushEvent) => await webhookClient.execute(PushEventHandler.handle(pushEvent)));const { api } = RouteBases;
 const { webhook } = Routes;
 var HttpStatusCode;
 (function (HttpStatusCode) {
     HttpStatusCode[HttpStatusCode["BadRequest"] = 400] = "BadRequest";
     HttpStatusCode[HttpStatusCode["NotAuthorized"] = 401] = "NotAuthorized";
     HttpStatusCode[HttpStatusCode["NotFound"] = 404] = "NotFound";
-    HttpStatusCode[HttpStatusCode["Ok"] = 200] = "Ok";
 })(HttpStatusCode || (HttpStatusCode = {}));
 class WebhookClient {
     webhookId;
@@ -48537,11 +48442,11 @@ class WebhookClient {
     async execute(containerBuilder) {
         const request = this.createWebhookExecuteRequest(containerBuilder);
         const response = await fetch(request);
-        const { status } = response;
+        const { ok, status } = response;
+        if (ok) {
+            return info('✅ The webhook was executed successfully');
+        }
         switch (status) {
-            case HttpStatusCode.Ok: {
-                return info('✅ The webhook was executed successfully');
-            }
             case HttpStatusCode.BadRequest: {
                 const responseJson = await response.json();
                 return setFailed(`❌ The webhook did not send a valid request: ${JSON.stringify(responseJson, null, 4)}`);
@@ -48564,15 +48469,15 @@ class WebhookClient {
     const webhookToken = getInput('webhook_token');
     try {
         const webhookClient = new WebhookClient(webhookId, webhookToken);
-        const eventHandler = EventHandlers[eventName];
+        const eventHandler = EventHandlersMap.get(eventName);
         if (eventHandler) {
             await eventHandler(webhookClient, payload);
         }
     }
-    catch (error) {
-        setFailed(error instanceof Error ? error : 'Something went wrong while executing the action');
+    catch {
+        setFailed('❌ Something went wrong while executing the action [Unknown Error]');
     }
 })();
 function showContextData(gitHubContext) {
-    info(JSON.stringify(gitHubContext, null, 4));
+    info(`ℹ️ Context Information: ${JSON.stringify(gitHubContext, null, 4)}`);
 }//# sourceMappingURL=index.js.map
