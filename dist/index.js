@@ -48340,8 +48340,7 @@ var integrationTypesPredicate2 = s3.array(
 function embedLength(data) {
   return (data.title?.length ?? 0) + (data.description?.length ?? 0) + (data.fields?.reduce((prev, curr) => prev + curr.name.length + curr.value.length, 0) ?? 0) + (data.footer?.text.length ?? 0) + (data.author?.name.length ?? 0);
 }
-__name(embedLength, "embedLength");const GREEN_COLOR = 0x10b981;
-const PURPLE_COLOR = 0x6366f1;const ISSUE_CLOSED_EMOJI = '<:_:1484923186083532841>';
+__name(embedLength, "embedLength");const PURPLE_COLOR = 0x6366f1;const ISSUE_CLOSED_EMOJI = '<:_:1484923186083532841>';
 const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHandler {
     static _createContainerTitle(issueClosedEvent) {
         const containerTitleString = IssueClosedEventHandler._formatContainerTitle(issueClosedEvent);
@@ -48364,12 +48363,12 @@ const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHand
         return containerBuilder;
     }
 }class IssueOpenedEventHandler {
-    static _createContainerSubtitle(issueOpenedEvent) {
+    static _createContainerSubtitleBuilder(issueOpenedEvent) {
         const containerSubtitleString = IssueOpenedEventHandler._formatContainerSubtitle(issueOpenedEvent);
         const containerSubtitleBuilder = new TextDisplayBuilder().setContent(containerSubtitleString);
         return containerSubtitleBuilder;
     }
-    static _createContainerTitle(issueOpenedEvent) {
+    static _createContainerTitleBuilder(issueOpenedEvent) {
         const containerTitleString = IssueOpenedEventHandler._formatContainerTitle(issueOpenedEvent);
         const containerTitleBuilder = new TextDisplayBuilder().setContent(containerTitleString);
         return containerTitleBuilder;
@@ -48391,9 +48390,8 @@ const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHand
         const { issue } = issueOpenedEvent;
         const { body: issueBody } = issue;
         const containerBuilder = new ContainerBuilder();
-        const containerTitleBuilder = IssueOpenedEventHandler._createContainerTitle(issueOpenedEvent);
-        const containerSubtitleBuilder = IssueOpenedEventHandler._createContainerSubtitle(issueOpenedEvent);
-        containerBuilder.setAccentColor(GREEN_COLOR);
+        const containerTitleBuilder = IssueOpenedEventHandler._createContainerTitleBuilder(issueOpenedEvent);
+        const containerSubtitleBuilder = IssueOpenedEventHandler._createContainerSubtitleBuilder(issueOpenedEvent);
         containerBuilder.addTextDisplayComponents(containerTitleBuilder, containerSubtitleBuilder);
         if (issueBody) {
             const containerSeparatorBuilder = new SeparatorBuilder();
@@ -48402,6 +48400,25 @@ const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHand
             containerBuilder.addSeparatorComponents(containerSeparatorBuilder);
             containerBuilder.addTextDisplayComponents(containerBodyBuilder);
         }
+        return containerBuilder;
+    }
+}class PushEventHandler {
+    static _createContainerTitleBuilder(pushEvent) {
+        const containerTitleString = PushEventHandler._formatContainerTitle(pushEvent);
+        const containerTitleBuilder = new TextDisplayBuilder().setContent(containerTitleString);
+        return containerTitleBuilder;
+    }
+    static _formatContainerTitle(pushEvent) {
+        const { commits, compare, ref, repository } = pushEvent;
+        const { length: commitsLength } = commits;
+        const { full_name: repositoryFullName } = repository;
+        const title = escapeMarkdown(`[${repositoryFullName}] ${commitsLength} new Commit(s) at ${ref}`);
+        return heading(hyperlink(title, compare), HeadingLevel.Three);
+    }
+    static handle(pushEvent) {
+        const containerBuilder = new ContainerBuilder();
+        const containerTitleBuilder = PushEventHandler._createContainerTitleBuilder(pushEvent);
+        containerBuilder.addTextDisplayComponents(containerTitleBuilder);
         return containerBuilder;
     }
 }class WebhookClient {
@@ -48452,6 +48469,9 @@ const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';class IssueClosedEventHand
                 if (message) {
                     await webhook.execute(message(payload));
                 }
+            }
+            case 'push': {
+                await webhook.execute(PushEventHandler.handle(payload));
             }
         }
     }
