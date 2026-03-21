@@ -13189,7 +13189,7 @@ function requireRetryAgent () {
 
 	retryAgent = RetryAgent;
 	return retryAgent;
-}var api = {};var apiRequest = {exports: {}};var readable;
+}var api$1 = {};var apiRequest = {exports: {}};var readable;
 var hasRequiredReadable;
 
 function requireReadable () {
@@ -14675,15 +14675,15 @@ function requireApiConnect () {
 }var hasRequiredApi;
 
 function requireApi () {
-	if (hasRequiredApi) return api;
+	if (hasRequiredApi) return api$1;
 	hasRequiredApi = 1;
 
-	api.request = requireApiRequest();
-	api.stream = requireApiStream();
-	api.pipeline = requireApiPipeline();
-	api.upgrade = requireApiUpgrade();
-	api.connect = requireApiConnect();
-	return api;
+	api$1.request = requireApiRequest();
+	api$1.stream = requireApiStream();
+	api$1.pipeline = requireApiPipeline();
+	api$1.upgrade = requireApiUpgrade();
+	api$1.connect = requireApiConnect();
+	return api$1;
 }var mockErrors;
 var hasRequiredMockErrors;
 
@@ -27801,6 +27801,13 @@ function setFailed(message) {
  */
 function error(message, properties = {}) {
     issueCommand('error', toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+}
+/**
+ * Writes info to log with console.log.
+ * @param message info message
+ */
+function info(message) {
+    process.stdout.write(message + os.EOL);
 }class Context {
     /**
      * Hydrate the context from the environment
@@ -41353,16 +41360,16 @@ function requireUser () {
 	})(NameplatePalette || (user.NameplatePalette = NameplatePalette = {}));
 	
 	return user;
-}var webhook = {};var hasRequiredWebhook;
+}var webhook$1 = {};var hasRequiredWebhook;
 
 function requireWebhook () {
-	if (hasRequiredWebhook) return webhook;
+	if (hasRequiredWebhook) return webhook$1;
 	hasRequiredWebhook = 1;
 	/**
 	 * Types extracted from https://discord.com/developers/docs/resources/webhook
 	 */
-	Object.defineProperty(webhook, "__esModule", { value: true });
-	webhook.WebhookType = webhook.ApplicationWebhookEventType = webhook.ApplicationWebhookType = void 0;
+	Object.defineProperty(webhook$1, "__esModule", { value: true });
+	webhook$1.WebhookType = webhook$1.ApplicationWebhookEventType = webhook$1.ApplicationWebhookType = void 0;
 	/**
 	 * @see {@link https://discord.com/developers/docs/events/webhook-events#webhook-types}
 	 */
@@ -41376,7 +41383,7 @@ function requireWebhook () {
 	     * Webhook event (details for event in event body object)
 	     */
 	    ApplicationWebhookType[ApplicationWebhookType["Event"] = 1] = "Event";
-	})(ApplicationWebhookType || (webhook.ApplicationWebhookType = ApplicationWebhookType = {}));
+	})(ApplicationWebhookType || (webhook$1.ApplicationWebhookType = ApplicationWebhookType = {}));
 	/**
 	 * @see {@link https://discord.com/developers/docs/events/webhook-events#event-types}
 	 */
@@ -41410,7 +41417,7 @@ function requireWebhook () {
 	     * User was added to a Quest (currently unavailable)
 	     */
 	    ApplicationWebhookEventType["QuestUserEnrollment"] = "QUEST_USER_ENROLLMENT";
-	})(ApplicationWebhookEventType || (webhook.ApplicationWebhookEventType = ApplicationWebhookEventType = {}));
+	})(ApplicationWebhookEventType || (webhook$1.ApplicationWebhookEventType = ApplicationWebhookEventType = {}));
 	/**
 	 * @see {@link https://discord.com/developers/docs/resources/webhook#webhook-object-webhook-types}
 	 */
@@ -41428,9 +41435,9 @@ function requireWebhook () {
 	     * Application webhooks are webhooks used with Interactions
 	     */
 	    WebhookType[WebhookType["Application"] = 3] = "Application";
-	})(WebhookType || (webhook.WebhookType = WebhookType = {}));
+	})(WebhookType || (webhook$1.WebhookType = WebhookType = {}));
 	
-	return webhook;
+	return webhook$1;
 }var hasRequiredV10$4;
 
 function requireV10$4 () {
@@ -43182,9 +43189,9 @@ const Locale$1 = mod$3.Locale;
 const OAuth2Routes = mod$3.OAuth2Routes;
 const RESTJSONErrorCodes = mod$3.RESTJSONErrorCodes;
 const ReactionType = mod$3.ReactionType;
-const RouteBases = mod$3.RouteBases;
-const Routes = mod$3.Routes;
-const StickerPackApplicationId = mod$3.StickerPackApplicationId;var v10$4=/*#__PURE__*/Object.freeze({__proto__:null,APIVersion:APIVersion,CDNRoutes:CDNRoutes,EntitlementOwnerType:EntitlementOwnerType,ImageFormat:ImageFormat,Locale:Locale$1,OAuth2Routes:OAuth2Routes,RESTJSONErrorCodes:RESTJSONErrorCodes,ReactionType:ReactionType,RouteBases:RouteBases,Routes:Routes,StickerPackApplicationId:StickerPackApplicationId,default:mod$3});var require$$3 = /*@__PURE__*/getAugmentedNamespace(v10$4);var v10$3 = {};var common = {};var hasRequiredCommon;
+const RouteBases$1 = mod$3.RouteBases;
+const Routes$1 = mod$3.Routes;
+const StickerPackApplicationId = mod$3.StickerPackApplicationId;var v10$4=/*#__PURE__*/Object.freeze({__proto__:null,APIVersion:APIVersion,CDNRoutes:CDNRoutes,EntitlementOwnerType:EntitlementOwnerType,ImageFormat:ImageFormat,Locale:Locale$1,OAuth2Routes:OAuth2Routes,RESTJSONErrorCodes:RESTJSONErrorCodes,ReactionType:ReactionType,RouteBases:RouteBases$1,Routes:Routes$1,StickerPackApplicationId:StickerPackApplicationId,default:mod$3});var require$$3 = /*@__PURE__*/getAugmentedNamespace(v10$4);var v10$3 = {};var common = {};var hasRequiredCommon;
 
 function requireCommon () {
 	if (hasRequiredCommon) return common;
@@ -44047,8 +44054,8 @@ mod.RPCVoiceShortcutKeyComboKeyType;
 mod.ReactionType;
 mod.RelationshipType;
 mod.RoleFlags;
-mod.RouteBases;
-mod.Routes;
+const RouteBases = mod.RouteBases;
+const Routes = mod.Routes;
 mod.SKUFlags;
 mod.SKUType;
 const SelectMenuDefaultValueType = mod.SelectMenuDefaultValueType;
@@ -48479,67 +48486,84 @@ const PushEventHandler = Object.freeze({
         this.appendCommitsToContainer(containerBuilder, commits);
         return containerBuilder;
     },
-});class WebhookClient {
+});const EventHandlers = {
+    issues: async (webhookClient, issuesEvent) => {
+        const { action } = issuesEvent;
+        const handlers = {
+            closed: IssueClosedEventHandler.handle,
+            opened: IssueOpenedEventHandler.handle,
+        };
+        const handler = handlers[action];
+        if (handler) {
+            await webhookClient.execute(handler(issuesEvent));
+        }
+    },
+    push: async (webhookClient, pushEvent) => await webhookClient.execute(PushEventHandler.handle(pushEvent)),
+};const { api } = RouteBases;
+const { webhook } = Routes;
+var HttpStatusCode;
+(function (HttpStatusCode) {
+    HttpStatusCode[HttpStatusCode["NotFound"] = 404] = "NotFound";
+    HttpStatusCode[HttpStatusCode["Ok"] = 200] = "Ok";
+    HttpStatusCode[HttpStatusCode["Unauthorized"] = 401] = "Unauthorized";
+})(HttpStatusCode || (HttpStatusCode = {}));
+class WebhookClient {
     webhookId;
     webhookToken;
     constructor(webhookId, webhookToken) {
         this.webhookId = webhookId;
         this.webhookToken = webhookToken;
     }
-    createRequestUrl() {
+    createWebhookExecuteRequest(containerBuilder) {
         const { webhookId, webhookToken } = this;
-        const url = new URL(`https://discord.com/api/v10/webhooks/${webhookId}/${webhookToken}`);
-        const { searchParams } = url;
-        searchParams.set('with_components', 'true');
-        return url;
-    }
-    async execute(containerBuilder) {
-        const url = this.createRequestUrl();
-        await fetch(url, {
-            body: JSON.stringify({
-                components: [
-                    containerBuilder,
-                ],
-                flags: MessageFlags.IsComponentsV2,
-            }),
-            headers: {
-                'content-type': 'application/json',
-            },
+        const requestUrl = `${api}/${webhook(webhookId, webhookToken)}?with_components=true`;
+        const requestBody = JSON.stringify({
+            components: [
+                containerBuilder,
+            ],
+            flags: MessageFlags.IsComponentsV2,
+        });
+        const request = new Request(requestUrl, {
+            body: requestBody,
             method: 'POST',
         });
+        return request;
     }
-}async function run() {
+    async execute(containerBuilder) {
+        const request = this.createWebhookExecuteRequest(containerBuilder);
+        const response = await fetch(request);
+        const { status } = response;
+        switch (status) {
+            case HttpStatusCode.Ok: {
+                return info('Webhook message has been created successfully');
+            }
+            case HttpStatusCode.NotFound: {
+                return setFailed('Webhook has not been found');
+            }
+            case HttpStatusCode.Unauthorized: {
+                return setFailed('Webhook has been unauthorized');
+            }
+            default: {
+                return setFailed('Something went wrong while executing the webhook');
+            }
+        }
+    }
+}(async () => {
+    showContextData(context);
+    const { eventName, payload } = context;
+    const webhookId = getInput('webhook_id');
+    const webhookToken = getInput('webhook_token');
     try {
-        const webhookId = getInput('webhook_id');
-        const webhookToken = getInput('webhook_token');
-        const webhook = new WebhookClient(webhookId, webhookToken);
-        const { eventName, payload } = context;
-        console.dir(context, {
-            colors: true,
-            depth: null,
-        });
-        switch (eventName) {
-            case 'issues': {
-                const { action } = payload;
-                const messages = {
-                    closed: IssueClosedEventHandler.handle,
-                    opened: IssueOpenedEventHandler.handle,
-                };
-                const message = messages[action];
-                if (message) {
-                    await webhook.execute(message(payload));
-                }
-            }
-            case 'push': {
-                await webhook.execute(PushEventHandler.handle(payload));
-            }
+        const webhookClient = new WebhookClient(webhookId, webhookToken);
+        const eventHandler = EventHandlers[eventName];
+        if (eventHandler) {
+            await eventHandler(webhookClient, payload);
         }
     }
     catch (error) {
-        if (error instanceof Error) {
-            return setFailed(error.stack ?? error.message);
-        }
-        setFailed('Unknown Error');
+        setFailed(error instanceof Error ? error : 'Something went wrong while executing the action');
     }
-}
-void run();//# sourceMappingURL=index.js.map
+})();
+function showContextData(gitHubContext) {
+    info(JSON.stringify(gitHubContext, null, 4));
+}//# sourceMappingURL=index.js.map
