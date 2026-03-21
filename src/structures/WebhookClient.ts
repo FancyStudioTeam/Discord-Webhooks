@@ -6,9 +6,10 @@ const { api } = RouteBases;
 const { webhook } = Routes;
 
 enum HttpStatusCode {
+	BadRequest = 400,
+	NotAuthorized = 401,
 	NotFound = 404,
 	Ok = 200,
-	Unauthorized = 401,
 }
 
 export class WebhookClient {
@@ -30,9 +31,13 @@ export class WebhookClient {
 			],
 			flags: MessageFlags.IsComponentsV2,
 		});
+		const requestHeaders = {
+			'Content-Type': 'application/json',
+		};
 
 		const request = new Request(requestUrl, {
 			body: requestBody,
+			headers: requestHeaders,
 			method: 'POST',
 		});
 
@@ -47,16 +52,23 @@ export class WebhookClient {
 
 		switch (status) {
 			case HttpStatusCode.Ok: {
-				return info('Webhook message has been created successfully');
+				return info('✅ The webhook was executed successfully');
+			}
+			case HttpStatusCode.BadRequest: {
+				const responseJson = await response.json();
+
+				return setFailed(
+					`❌ The webhook did not send a valid request: ${JSON.stringify(responseJson, null, 4)}`,
+				);
+			}
+			case HttpStatusCode.NotAuthorized: {
+				return setFailed('❌ The webhook was not authorized [Error 401]');
 			}
 			case HttpStatusCode.NotFound: {
-				return setFailed('Webhook has not been found');
-			}
-			case HttpStatusCode.Unauthorized: {
-				return setFailed('Webhook has been unauthorized');
+				return setFailed('❌ The webhook was not found [Error 404]');
 			}
 			default: {
-				return setFailed('Something went wrong while executing the webhook');
+				return setFailed('❌ Something went wrong while executing the webhook');
 			}
 		}
 	}

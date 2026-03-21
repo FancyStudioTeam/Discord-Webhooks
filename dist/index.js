@@ -48524,8 +48524,12 @@ class WebhookClient {
             ],
             flags: MessageFlags.IsComponentsV2,
         });
+        const requestHeaders = {
+            'Content-Type': 'application/json',
+        };
         const request = new Request(requestUrl, {
             body: requestBody,
+            headers: requestHeaders,
             method: 'POST',
         });
         return request;
@@ -48540,7 +48544,7 @@ class WebhookClient {
             }
             case HttpStatusCode.BadRequest: {
                 const responseJson = await response.json();
-                return setFailed(`❌ ${JSON.stringify(responseJson, null, 4)}`);
+                return setFailed(`❌ The webhook did not send a valid request: ${JSON.stringify(responseJson, null, 4)}`);
             }
             case HttpStatusCode.NotAuthorized: {
                 return setFailed('❌ The webhook was not authorized [Error 401]');
