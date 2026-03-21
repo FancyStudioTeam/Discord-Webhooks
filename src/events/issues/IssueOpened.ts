@@ -10,8 +10,8 @@ import {
 	TextDisplayBuilder,
 } from '@discordjs/builders';
 import type { IssuesOpenedEvent } from '@octokit/webhooks-types';
-import { ISSUE_OPENED_EMOJI } from '#/lib/Emojis.js';
 import { GREEN_COLOR } from '#/lib/Colors.js';
+import { ISSUE_OPENED_EMOJI } from '#/lib/Emojis.js';
 
 export const IssueOpenedEventHandler = Object.freeze({
 	appendBodyToContainer(containerBuilder: ContainerBuilder, issueBody?: string | null): void {
