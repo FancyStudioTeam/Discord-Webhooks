@@ -48419,11 +48419,12 @@ const PushEventHandler = Object.freeze({
     _appendCommitsToContainer(containerBuilder, commits) {
         const containerCommits = [];
         const containerCommitsBuilder = new TextDisplayBuilder();
-        for (const { id: commitId, message: commitMessage, url: commitUrl } of commits) {
+        for (const commit of commits) {
+            const { id: commitId, message: commitMessage, url: commitUrl } = commit;
             const formattedCommitId = GitHubUtils.formatCommitId(commitId);
             const formattedCommitMessage = escapeBold(commitMessage);
-            const commitHyperlink = hyperlink(inlineCode(`[${formattedCommitId}]`), commitUrl);
-            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink} ${formattedCommitMessage}`));
+            const commitHyperlink = hyperlink(inlineCode(formattedCommitId), commitUrl);
+            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink}: ${formattedCommitMessage}`));
         }
         containerCommitsBuilder.setContent(containerCommits.join('\n'));
         containerBuilder.addTextDisplayComponents(containerCommitsBuilder);
