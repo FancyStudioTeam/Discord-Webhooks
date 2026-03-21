@@ -48342,7 +48342,8 @@ function embedLength(data) {
 }
 __name(embedLength, "embedLength");const PURPLE_COLOR = 0x6366f1;const ISSUE_CLOSED_EMOJI = '<:_:1484923186083532841>';
 const ISSUE_OPENED_EMOJI = '<:_:1484922992378118184>';
-const REPO_PUSH = '<:_:1484953588789940426>';const IssueClosedEventHandler = Object.freeze({
+const PERSON_EMOJI = '<:_:1484960014903935137>';
+const REPO_PUSH_EMOJI = '<:_:1484953588789940426>';const IssueClosedEventHandler = Object.freeze({
     _createContainerTitle(issueClosedEvent) {
         const containerTitleString = IssueClosedEventHandler._formatContainerTitle(issueClosedEvent);
         const containerTitleBuilder = new TextDisplayBuilder().setContent(containerTitleString);
@@ -48405,6 +48406,11 @@ const REPO_PUSH = '<:_:1484953588789940426>';const IssueClosedEventHandler = Obj
     }
 }const GITHUB_COMMIT_HASH_LENGTH = 7;
 const PushEventHandler = Object.freeze({
+    _appendCommitsToContainer(containerBuilder, commits) {
+        for (const commit of commits) {
+            containerBuilder.addSectionComponents(this._createCommitBuilder(commit));
+        }
+    },
     _createCommitBuilder(commit) {
         const { committer: commitCommiter, message: commitMessage, url: commitUrl } = commit;
         const { name: commitCommiterName } = commitCommiter;
@@ -48412,13 +48418,19 @@ const PushEventHandler = Object.freeze({
         const commitDataBuilder = new TextDisplayBuilder();
         const commitButtonBuilder = new ButtonBuilder();
         const title = escapeBold(commitMessage);
-        commitDataBuilder.setContent(`${bold(title)}\n${commitCommiterName}`);
+        commitDataBuilder.setContent(`${bold(title)}\n${PERSON_EMOJI} ${commitCommiterName}`);
         commitButtonBuilder.setStyle(ButtonStyle.Link);
         commitButtonBuilder.setLabel('Link');
         commitButtonBuilder.setURL(commitUrl);
         commitBuilder.addTextDisplayComponents(commitDataBuilder);
         commitBuilder.setButtonAccessory(commitButtonBuilder);
         return commitBuilder;
+    },
+    _createContainerBuilder() {
+        return new ContainerBuilder();
+    },
+    _createSeparatorBuilder() {
+        return new SeparatorBuilder();
     },
     _createTitleBuilder(pushEvent) {
         const titleString = this._formatContainerTitle(pushEvent);
@@ -48431,7 +48443,7 @@ const PushEventHandler = Object.freeze({
         const { length: commitsLength } = commits;
         const { name: repositoryName } = repository;
         const branch = this._formatGitHubBranch(ref);
-        const title = escapeMarkdown(`${REPO_PUSH} [${repositoryName}] ${commitsLength} new Commit(s) at ${branch}`);
+        const title = escapeMarkdown(`${REPO_PUSH_EMOJI} [${repositoryName}] ${commitsLength} new Commit(s) at ${branch}`);
         return heading(hyperlink(title, compare), HeadingLevel.Three);
     },
     _formatGitHubBranch(referenceString) {
@@ -48444,15 +48456,12 @@ const PushEventHandler = Object.freeze({
     },
     handle(pushEvent) {
         const { commits } = pushEvent;
-        const containerBuilder = new ContainerBuilder();
+        const containerBuilder = this._createContainerBuilder();
         const containerTitleBuilder = this._createTitleBuilder(pushEvent);
-        const containerSeparatorBuilder = new SeparatorBuilder();
+        const containerSeparatorBuilder = this._createSeparatorBuilder();
         containerBuilder.addTextDisplayComponents(containerTitleBuilder);
         containerBuilder.addSeparatorComponents(containerSeparatorBuilder);
-        for (const commit of commits) {
-            const containerCommitBuilder = this._createCommitBuilder(commit);
-            containerBuilder.addSectionComponents(containerCommitBuilder);
-        }
+        this._appendCommitsToContainer(containerBuilder, commits);
         return containerBuilder;
     },
 });class WebhookClient {
