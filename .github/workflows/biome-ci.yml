@@ -1,9 +1,9 @@
-name: Oxc Continuous Integration
+name: Biome Continuous Integration
 
 on: [push, pull_request]
 
 jobs:
-    oxc-ci:
+    biome-ci:
         runs-on: ubuntu-latest
 
         steps:
@@ -21,5 +21,5 @@ jobs:
             - name: Install Dependencies
               run: pnpm install
 
-            - name: Run Oxc Continuous Integration
-              run: pnpm oxc
+            - name: Run Biome Continuous Integration
+              run: pnpm biome:ci
