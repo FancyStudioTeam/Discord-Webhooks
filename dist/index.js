@@ -48419,12 +48419,11 @@ const PushEventHandler = Object.freeze({
     _appendCommitsToContainer(containerBuilder, commits) {
         const containerCommits = [];
         const containerCommitsBuilder = new TextDisplayBuilder();
-        for (const commit of commits) {
-            const { id: commitId, message: commitMessage, url: commitUrl } = commit;
+        for (const { id: commitId, message: commitMessage, url: commitUrl } of commits) {
             const formattedCommitId = GitHubUtils.formatCommitId(commitId);
             const formattedCommitMessage = escapeBold(commitMessage);
             const commitHyperlink = hyperlink(inlineCode(formattedCommitId), commitUrl);
-            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink}: ${formattedCommitMessage}`));
+            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink} ${formattedCommitMessage}`));
         }
         containerCommitsBuilder.setContent(containerCommits.join('\n'));
         containerBuilder.addTextDisplayComponents(containerCommitsBuilder);
@@ -48441,13 +48440,12 @@ const PushEventHandler = Object.freeze({
         titleBuilder.setContent(titleString);
         return titleBuilder;
     },
-    _formatContainerTitle(pushEvent) {
-        const { commits, compare, ref, repository } = pushEvent;
+    _formatContainerTitle({ commits, compare, ref, repository }) {
         const { length: commitsLength } = commits;
         const { name: repositoryName } = repository;
-        const branch = GitHubUtils.formatBranch(ref);
-        const title = escapeMarkdown(`${REPO_PUSH_EMOJI} [${repositoryName}] ${commitsLength} new Commit(s) at ${branch}`);
-        return heading(hyperlink(title, compare), HeadingLevel.Three);
+        const formattedBranch = GitHubUtils.formatBranch(ref);
+        const formattedTitle = escapeMarkdown(`${REPO_PUSH_EMOJI} [${repositoryName}] ${commitsLength} new Commit(s) at ${formattedBranch}`);
+        return heading(hyperlink(formattedTitle, compare), HeadingLevel.Three);
     },
     handle(pushEvent) {
         const { commits } = pushEvent;
