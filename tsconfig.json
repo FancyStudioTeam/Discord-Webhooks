@@ -14,7 +14,9 @@
 		"moduleResolution": "nodenext",
 		"outDir": "dist",
 		"paths": {
-			"#/*": ["./src/*"]
+			"#/*": [
+				"./src/*"
+			]
 		},
 		"resolveJsonModule": true,
 		"skipDefaultLibCheck": true,
@@ -22,7 +24,11 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"target": "esnext",
-		"types": ["node"]
+		"types": [
+			"node"
+		]
 	},
-	"include": ["src/**/*.ts"]
+	"include": [
+		"src/**/*.ts"
+	]
 }
