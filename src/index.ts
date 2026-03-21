@@ -1,7 +1,7 @@
 import { getInput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
-import { ContainerBuilder } from '@discordjs/builders';
-import { IssuesEvent } from '@octokit/webhooks-types';
+import type { ContainerBuilder } from '@discordjs/builders';
+import type { IssuesEvent } from '@octokit/webhooks-types';
 
 import { IssueClosedEventHandler } from './events/issues/IssueClosed.js';
 import { IssueOpenedEventHandler } from './events/issues/IssueOpened.js';
