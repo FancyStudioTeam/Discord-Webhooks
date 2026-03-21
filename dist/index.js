@@ -48411,7 +48411,7 @@ const GitHubUtils = Object.freeze({
         const branch = references.at(-1);
         return branch ?? 'unknown';
     },
-    formatCommitHash(idString) {
+    formatCommitId(idString) {
         return idString.slice(0, GITHUB_COMMIT_HASH_LENGTH);
     },
 });
@@ -48420,10 +48420,10 @@ const PushEventHandler = Object.freeze({
         const containerCommits = [];
         const containerCommitsBuilder = new TextDisplayBuilder();
         for (const { id: commitId, message: commitMessage, url: commitUrl } of commits) {
-            const formattedCommitId = GitHubUtils.formatCommitHash(commitId);
+            const formattedCommitId = GitHubUtils.formatCommitId(commitId);
             const formattedCommitMessage = escapeBold(commitMessage);
-            const commitHyperlink = hyperlink(formattedCommitId, commitUrl);
-            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} [${inlineCode(commitHyperlink)}] ${formattedCommitMessage}`));
+            const commitHyperlink = hyperlink(inlineCode(formattedCommitId), commitUrl);
+            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} [${commitHyperlink}] ${formattedCommitMessage}`));
         }
         containerCommitsBuilder.setContent(containerCommits.join('\n'));
         containerBuilder.addTextDisplayComponents(containerCommitsBuilder);
