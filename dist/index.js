@@ -48422,7 +48422,7 @@ const PushEventHandler = Object.freeze({
         for (const { id: commitId, message: commitMessage, url: commitUrl } of commits) {
             const formattedCommitId = GitHubUtils.formatCommitId(commitId);
             const formattedCommitMessage = escapeBold(commitMessage);
-            const commitHyperlink = hyperlink(`[${formattedCommitId}]`, commitUrl);
+            const commitHyperlink = hyperlink(inlineCode(`[${formattedCommitId}]`), commitUrl);
             containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink} ${formattedCommitMessage}`));
         }
         containerCommitsBuilder.setContent(containerCommits.join('\n'));
