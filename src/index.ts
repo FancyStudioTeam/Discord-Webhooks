@@ -1,16 +1,21 @@
-import { getInput, info, setFailed } from '@actions/core';
+import { getInput, type InputOptions, info, setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { handleEvent } from './lib/Handlers.js';
 import type { GitHubContext } from './lib/Types.js';
 import { WebhookClient } from './structures/WebhookClient.js';
+
+const GET_INPUT_OPTIONS: InputOptions = {
+	required: true,
+	trimWhitespace: true,
+};
 
 (async () => {
 	const gitHubContext = context as unknown as GitHubContext;
 
 	showContextData(gitHubContext);
 
-	const webhookId = getInput('webhook_id');
-	const webhookToken = getInput('webhook_token');
+	const webhookId = getInput('webhook_id', GET_INPUT_OPTIONS);
+	const webhookToken = getInput('webhook_token', GET_INPUT_OPTIONS);
 
 	const webhookClient = new WebhookClient(webhookId, webhookToken);
 

@@ -27780,6 +27780,9 @@ var ExitCode;
  */
 function getInput(name, options) {
     const val = process.env[`INPUT_${name.replace(/ /g, '_').toUpperCase()}`] || '';
+    if (options && options.required && !val) {
+        throw new Error(`Input required and not supplied: ${name}`);
+    }
     return val.trim();
 }
 //-----------------------------------------------------------------------
@@ -48565,11 +48568,13 @@ class WebhookClient {
             }
         }
     }
-}(async () => {
+}const GET_INPUT_OPTIONS = {
+    required: true};
+(async () => {
     const gitHubContext = context;
     showContextData(gitHubContext);
-    const webhookId = getInput('webhook_id');
-    const webhookToken = getInput('webhook_token');
+    const webhookId = getInput('webhook_id', GET_INPUT_OPTIONS);
+    const webhookToken = getInput('webhook_token', GET_INPUT_OPTIONS);
     const webhookClient = new WebhookClient(webhookId, webhookToken);
     try {
         await handleEvent(webhookClient, gitHubContext);
