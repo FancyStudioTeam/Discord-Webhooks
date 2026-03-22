@@ -48348,8 +48348,7 @@ function embedLength(data) {
   return (data.title?.length ?? 0) + (data.description?.length ?? 0) + (data.fields?.reduce((prev, curr) => prev + curr.name.length + curr.value.length, 0) ?? 0) + (data.footer?.text.length ?? 0) + (data.author?.name.length ?? 0);
 }
 __name(embedLength, "embedLength");const GREEN_COLOR = 0x10b981;
-const PURPLE_COLOR = 0x6366f1;const GIT_COMMIT_EMOJI = '<:_:1484968687449411614>';
-const ISSUE_CLOSED_EMOJI = '<:_:1484998086764789780>';
+const PURPLE_COLOR = 0x6366f1;const ISSUE_CLOSED_EMOJI = '<:_:1484998086764789780>';
 const ISSUE_OPENED_EMOJI = '<:_:1484998753004814546>';
 const REPO_PUSH_EMOJI = '<:_:1484953588789940426>';const IssueClosedEventHandler = Object.freeze({
     createContainerBuilder() {
@@ -48449,7 +48448,7 @@ const PushEventHandler = Object.freeze({
             const formattedCommitId = GitHubUtils.formatCommitId(commitId);
             const formattedCommitMessage = escapeBold(commitMessage);
             const commitHyperlink = hyperlink(inlineCode(formattedCommitId), commitUrl);
-            containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink} ${formattedCommitMessage}`));
+            containerCommits.push(bold(`${commitHyperlink} ${formattedCommitMessage}`));
         }
         containerCommitsBuilder.setContent(containerCommits.join('\n'));
         containerBuilder.addTextDisplayComponents(containerCommitsBuilder);

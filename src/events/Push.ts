@@ -11,7 +11,7 @@ import {
 	TextDisplayBuilder,
 } from '@discordjs/builders';
 import type { Commit, PushEvent } from '@octokit/webhooks-types';
-import { GIT_COMMIT_EMOJI, REPO_PUSH_EMOJI } from '#/lib/Emojis.js';
+import { REPO_PUSH_EMOJI } from '#/lib/Emojis.js';
 
 const GITHUB_COMMIT_HASH_LENGTH = 7;
 
@@ -39,7 +39,7 @@ export const PushEventHandler = Object.freeze({
 
 			const commitHyperlink = hyperlink(inlineCode(formattedCommitId), commitUrl);
 
-			containerCommits.push(bold(`${GIT_COMMIT_EMOJI} ${commitHyperlink} ${formattedCommitMessage}`));
+			containerCommits.push(bold(`${commitHyperlink} ${formattedCommitMessage}`));
 		}
 
 		containerCommitsBuilder.setContent(containerCommits.join('\n'));
