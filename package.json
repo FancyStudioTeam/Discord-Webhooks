@@ -27,6 +27,7 @@
 		"biome:check": "biome check",
 		"biome:ci": "biome ci",
 		"biome:write": "biome check --write",
+		"wrangler:ci": "wrangler deploy --dry-run",
 		"wrangler:deploy": "wrangler deploy",
 		"wrangler:dev": "wrangler dev",
 		"wrangler:secret:bulk": "wrangler secret bulk .env",
