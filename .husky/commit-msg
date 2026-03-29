@@ -1,0 +1,1 @@
+commitlint --config commitlint.config.ts --edit --verbose
