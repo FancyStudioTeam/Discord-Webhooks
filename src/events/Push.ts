@@ -7,6 +7,7 @@ import {
 	heading,
 	hyperlink,
 	inlineCode,
+	SeparatorBuilder,
 	TextDisplayBuilder,
 } from '@discordjs/builders';
 import type { Commit, PushEvent } from '@octokit/webhooks-types';
@@ -57,13 +58,20 @@ export const PushEventHandler = Object.freeze({
 
 	createEventContainerBuilder(pushEvent: PushEvent): ContainerBuilder {
 		const containerBuilder = this.createContainerBuilder();
+		const containerSeparatorBuilder = this.createSeparatorBuilder();
 
 		const containerTitleBuilder = this.createContainerTitleBuilder(pushEvent);
 		const containerCommitsBuilder = this.createContainerCommitsBuilder(pushEvent);
 
-		containerBuilder.addTextDisplayComponents(containerTitleBuilder, containerCommitsBuilder);
+		containerBuilder.addTextDisplayComponents(containerTitleBuilder);
+		containerBuilder.addSeparatorComponents(containerSeparatorBuilder);
+		containerBuilder.addTextDisplayComponents(containerCommitsBuilder);
 
 		return containerBuilder;
+	},
+
+	createSeparatorBuilder(): SeparatorBuilder {
+		return new SeparatorBuilder();
 	},
 
 	createTextDisplayBuilder(): TextDisplayBuilder {
