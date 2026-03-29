@@ -3,16 +3,16 @@
 	"dependencies": {
 		"@discordjs/builders": "1.14.0",
 		"@octokit/webhooks": "14.2.0",
-		"discord-api-types": "0.38.42",
+		"discord-api-types": "0.38.43",
 		"ts-pattern": "5.9.0"
 	},
 	"description": "An application that manages incoming GitHub Webhooks within the FancyStudio organization",
 	"devDependencies": {
-		"@biomejs/biome": "2.4.8",
+		"@biomejs/biome": "2.4.9",
 		"@octokit/webhooks-types": "7.6.1",
 		"@types/node": "25.5.0",
 		"typescript": "6.0.2",
-		"wrangler": "4.76.0"
+		"wrangler": "4.78.0"
 	},
 	"license": "MIT",
 	"main": "src/index.ts",
