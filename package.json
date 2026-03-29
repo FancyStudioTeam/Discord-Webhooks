@@ -40,5 +40,6 @@
 		"wrangler:secret:bulk": "wrangler secret bulk .env",
 		"wrangler:types": "wrangler types"
 	},
+	"type": "module",
 	"version": "0.1.0"
 }
