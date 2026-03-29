@@ -80,12 +80,12 @@ export const PushEventHandler = Object.freeze({
 
 	formatContainerTitle({ commits, compare, ref, repository }: PushEvent): string {
 		const { length: commitsLength } = commits;
-		const { full_name: repositoryFullName } = repository;
+		const { name: repositoryName } = repository;
 
 		const formattedBranch = GitHubUtils.formatBranch(ref);
 		const formattedTitle = hyperlink(
 			escapeMarkdown(
-				`[${repositoryFullName}] ${commitsLength} New Commits at ${formattedBranch}`,
+				`[${repositoryName}] ${commitsLength} New Commits at ${formattedBranch}`,
 			),
 			compare,
 		);

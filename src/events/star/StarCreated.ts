@@ -38,11 +38,11 @@ export const StarCreatedEventHandler = {
 	},
 
 	formatContainerTitle({ repository, sender }: StarCreatedEvent): string {
-		const { full_name: repositoryFullName, html_url: repositoryHtmlUrl } = repository;
+		const { html_url: repositoryHtmlUrl, name: repositoryName } = repository;
 		const { login: senderLogin } = sender;
 
 		const formattedTitle = hyperlink(
-			escapeMarkdown(`[${repositoryFullName}] New Star Added: ${senderLogin}`),
+			escapeMarkdown(`[${repositoryName}] New Star Added: ${senderLogin}`),
 			repositoryHtmlUrl,
 		);
 
