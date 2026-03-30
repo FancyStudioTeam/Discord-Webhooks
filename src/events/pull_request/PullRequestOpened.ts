@@ -55,28 +55,20 @@ export const PullRequestOpenedEventHandler = {
 	},
 
 	formatContainerSubtitle({ pull_request }: PullRequestOpenedEvent): string {
-		const {
-			html_url: pullRequestHtmlUrl,
-			number: pullRequestNumber,
-			title: pullRequestTitle,
-			user: pullRequestUser,
-		} = pull_request;
+		const { title: pullRequestTitle, user: pullRequestUser } = pull_request;
 		const { login: pullRequestUserLogin } = pullRequestUser;
 
-		const formattedTitle = hyperlink(
-			escapeMarkdown(`[#${pullRequestNumber}] ${pullRequestTitle} - ${pullRequestUserLogin}`),
-			pullRequestHtmlUrl,
-		);
+		const formattedTitle = escapeMarkdown(`${pullRequestTitle} - ${pullRequestUserLogin}`);
 
 		return bold(formattedTitle);
 	},
 
 	formatContainerTitle({ pull_request, repository }: PullRequestOpenedEvent): string {
-		const { html_url: pullRequestHtmlUrl } = pull_request;
+		const { html_url: pullRequestHtmlUrl, number: pullRequestNumber } = pull_request;
 		const { name: repositoryName } = repository;
 
 		const formattedTitle = hyperlink(
-			`[${repositoryName}] Pull Request Opened`,
+			`[${repositoryName}] Pull Request #${pullRequestNumber} Opened`,
 			pullRequestHtmlUrl,
 		);
 
