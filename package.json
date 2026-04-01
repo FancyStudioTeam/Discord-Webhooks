@@ -1,7 +1,7 @@
 {
 	"author": "FancyStudio",
 	"dependencies": {
-		"@discordjs/builders": "1.14.0",
+		"@discordjs/builders": "1.14.1",
 		"@octokit/webhooks": "14.2.0",
 		"discord-api-types": "0.38.43",
 		"ts-pattern": "5.9.0"
