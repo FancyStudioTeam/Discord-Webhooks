@@ -3,7 +3,7 @@
 	"dependencies": {
 		"@discordjs/builders": "1.14.1",
 		"@octokit/webhooks": "14.2.0",
-		"discord-api-types": "0.38.43",
+		"discord-api-types": "0.38.44",
 		"ts-pattern": "5.9.0"
 	},
 	"description": "An application that manages incoming GitHub Webhooks within the FancyStudio organization",
