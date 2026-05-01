@@ -9,7 +9,7 @@
 	"description": "An application that manages incoming GitHub Webhooks within the FancyStudio organization",
 	"devDependencies": {
 		"@biomejs/biome": "2.4.13",
-		"@commitlint/cli": "20.5.2",
+		"@commitlint/cli": "20.5.3",
 		"@commitlint/config-conventional": "20.5.3",
 		"@commitlint/types": "20.5.0",
 		"@octokit/webhooks-types": "7.6.1",
